@@ -31,10 +31,8 @@
         .meter-fill{position:absolute;left:3px;right:3px;bottom:3px;height:0;background:linear-gradient(180deg,#ffdf8c 0%,#ffb347 45%,#ff914d 100%);border-radius:8px;transition:height 0.25s ease;}
         main{display:flex;justify-content:center;}
         .stage-wrapper{position:relative;padding:20px 24px;background:var(--panel);border-radius:20px;border:1px solid var(--border);box-shadow:0 40px 80px rgba(0,0,0,0.4);}
-        .stage{position:relative;width:var(--stage-width);height:var(--stage-height);background:linear-gradient(180deg,#12142a 0%,#0c0e1d 55%,#080910 100%);border-radius:24px;border:1px solid rgba(255,255,255,0.04);overflow:hidden;box-shadow:inset 0 18px 40px rgba(0,0,0,0.45);}
-        .stage::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 120%,rgba(255,207,129,0.05) 0%,rgba(255,145,77,0.08) 30%,rgba(8,9,16,0.92) 70%);pointer-events:none;}
-        .cutoff-line{position:absolute;top:96px;left:0;right:0;height:2px;background:linear-gradient(90deg,rgba(255,145,77,0) 0%,rgba(255,145,77,0.6) 30%,rgba(255,145,77,0.6) 70%,rgba(255,145,77,0) 100%);z-index:4;}
-        .cutoff-label{position:absolute;top:70px;left:50%;transform:translateX(-50%);font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,145,77,0.75);background:rgba(12,13,22,0.85);padding:4px 10px;border-radius:999px;border:1px solid rgba(255,145,77,0.35);z-index:5;}
+    .stage{position:relative;width:var(--stage-width);min-height:var(--stage-height);height:auto;background:linear-gradient(180deg,#12142a 0%,#0c0e1d 55%,#080910 100%);border-radius:24px;border:1px solid rgba(255,255,255,0.04);overflow:hidden;box-shadow:inset 0 18px 40px rgba(0,0,0,0.45);} 
+    .stage::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 120%,rgba(255,207,129,0.05) 0%,rgba(255,145,77,0.08) 30%,rgba(8,9,16,0.92) 70%);pointer-events:none;} 
         .stack{position:absolute;bottom:0;left:0;right:0;z-index:3;height:100%;pointer-events:none;}
         .layer{position:absolute;height:32px;border-radius:12px;box-shadow:0 10px 24px rgba(0,0,0,0.35);transition:left 0.1s linear,width 0.12s ease;}
         .layer::before{content:"";position:absolute;inset:0;border-radius:12px;opacity:0.6;mix-blend-mode:overlay;}
@@ -42,6 +40,14 @@
         .layer.fell{animation:fall-out 0.6s forwards ease-in;}
         @keyframes fall-out{to{transform:translateY(260px) rotate(35deg);opacity:0;}}
         .layer.crowned{box-shadow:0 0 0 3px rgba(255,214,160,0.35),0 18px 32px rgba(0,0,0,0.45);}
+        .high-score-panel{display:flex;flex-direction:column;gap:12px;background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px 24px;box-shadow:0 20px 40px rgba(0,0,0,0.28);} 
+        .high-score-panel h2{margin:0;font-size:1.2rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);} 
+        .high-score-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;} 
+        .high-score-list li{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.04);border-radius:10px;padding:8px 12px;font-size:0.95rem;} 
+        .high-score-list li .rank{font-weight:600;color:var(--accent);} 
+        .high-score-list li .name{flex:1;margin:0 8px;} 
+        .high-score-list li .value{font-weight:600;color:rgba(245,246,250,0.9);} 
+        .high-score-list li.empty{justify-content:center;color:rgba(245,246,250,0.6);font-style:italic;} 
     .bun-bottom{background-color:transparent;background-repeat:no-repeat,no-repeat;background-size:100% 100%,100% 100%;background-position:center,center;} 
     .bun-bottom::before{display:none;} 
     .bun-top{background-color:transparent;border-radius:12px;background-repeat:no-repeat;background-position:center;background-size:100% 100%;} 
@@ -63,10 +69,14 @@
         .overlay-card{max-width:440px;width:100%;background:rgba(17,19,32,0.95);border-radius:20px;border:1px solid rgba(255,255,255,0.08);box-shadow:0 40px 80px rgba(0,0,0,0.45);padding:36px;text-align:center;display:flex;flex-direction:column;gap:18px;}
         .overlay-card h2{margin:0;font-size:1.8rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);}
         .overlay-card p{margin:0;font-size:1rem;line-height:1.6;color:rgba(245,246,250,0.9);} 
+    .overlay-card label{display:flex;flex-direction:column;gap:6px;text-align:left;font-size:0.9rem;color:rgba(245,246,250,0.85);} 
+    .overlay-card input[type="text"]{padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.16);background:rgba(8,9,16,0.65);color:var(--text);font-size:1rem;font-family:inherit;transition:border-color 0.2s ease,box-shadow 0.2s ease;} 
+    .overlay-card input[type="text"]:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px rgba(255,145,77,0.25);} 
+    .overlay-card input[type="text"][aria-invalid="true"]{border-color:var(--danger);} 
         .btn{align-self:center;background:var(--accent);color:#2b1b0b;border:none;padding:12px 28px;border-radius:999px;font-weight:700;font-size:1.02rem;cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;box-shadow:0 18px 28px rgba(255,145,77,0.35);transition:transform 0.2s ease,box-shadow 0.2s ease;} 
         .btn:hover{transform:translateY(-2px);box-shadow:0 22px 40px rgba(255,145,77,0.45);} 
-        @media(max-width:780px){header{flex-direction:column;align-items:flex-start;gap:18px;}.scoreboard{width:100%;justify-content:space-between;}.stage-wrapper{padding:16px;}.heading h1{font-size:1.5rem;}}
-        @media(max-width:540px){body{padding:16px;}.stage-wrapper{padding:12px;}.wrapper{gap:18px;}.height-meter{display:none;}}
+    @media(max-width:780px){header{flex-direction:column;align-items:flex-start;gap:18px;}.scoreboard{width:100%;justify-content:space-between;}.stage-wrapper{padding:16px;}.heading h1{font-size:1.5rem;}.high-score-panel{padding:16px;}}
+    @media(max-width:540px){body{padding:16px;}.stage-wrapper{padding:12px;}.wrapper{gap:18px;}.height-meter{display:none;}.high-score-list li{flex-direction:column;align-items:flex-start;gap:4px;}}
     </style>
 </head>
 <body>
@@ -74,24 +84,26 @@
         <header>
             <div class="heading">
                 <h1>Burger Stack</h1>
-                <span>Stack ingredients as high as you can before you hit the cutoff.</span>
+                <span>Stack ingredients as high as you can without toppling the burger.</span>
             </div>
             <div class="scoreboard" aria-live="polite">
                 <div>Layers: <span class="value" id="scoreValue">0</span></div>
                 <div>Best: <span class="value" id="bestValue">0</span></div>
                 <div class="height-meter">
-                    <span>Height</span>
-                    <div class="meter" id="heightMeter" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Stack height">
+                    <span>Progress</span>
+                    <div class="meter" id="heightMeter" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Progress toward the high score">
                         <div class="meter-fill"></div>
                     </div>
                 </div>
             </div>
         </header>
+        <section class="high-score-panel" aria-label="High scores">
+            <h2>High Scores</h2>
+            <ol class="high-score-list" id="highScoreList"></ol>
+        </section>
         <main>
             <div class="stage-wrapper">
                 <div class="stage" id="stage" aria-describedby="stageInstructions">
-                    <div class="cutoff-line"></div>
-                    <div class="cutoff-label">Cutoff</div>
                     <div class="stack" id="stack"></div>
                     <div class="plate" aria-hidden="true"></div>
                     <div class="counterlighting" aria-hidden="true"></div>
@@ -103,7 +115,11 @@
     <div class="overlay" id="overlay">
         <div class="overlay-card">
             <h2 id="overlayTitle">Burger Stack Challenge</h2>
-            <p id="overlayMessage">Drop each ingredient so it lands on the one below it. Align carefully—if you miss, the burger topples.</p>
+            <p id="overlayMessage">Drop each ingredient so it lands on the one below it. Keep building forever—your run only ends when the burger falls. Scroll to follow the top of your burger.</p>
+            <label for="playerNameInput">
+                Player Name
+                <input type="text" id="playerNameInput" name="playerName" placeholder="Enter your name" autocomplete="name" maxlength="24">
+            </label>
             <button class="btn" id="overlayButton" type="button">Start stacking</button>
         </div>
     </div>
@@ -114,11 +130,14 @@
         const STAGE_HEIGHT = 620;
         const LAYER_HEIGHT = 32;
         const PLATE_HEIGHT = 56;
-        const CEILING = STAGE_HEIGHT - 120;
         const MOVE_BASE_SPEED = 3.2;
         const MIN_OVERLAP = 4;
+        const STAGE_PADDING = 180;
+        const HIGH_SCORES_KEY = 'burgerStackHighScores';
+        const LAST_PLAYER_KEY = 'burgerStackLastPlayer';
+        const MAX_HIGH_SCORES_DISPLAY = 10;
 
-    const stackEl = document.getElementById('stack');
+        const stackEl = document.getElementById('stack');
         const stageEl = document.getElementById('stage');
         const overlay = document.getElementById('overlay');
         const overlayTitle = document.getElementById('overlayTitle');
@@ -128,28 +147,30 @@
         const bestEl = document.getElementById('bestValue');
         const heightMeter = document.getElementById('heightMeter');
         const heightFill = heightMeter.querySelector('.meter-fill');
+        const highScoreList = document.getElementById('highScoreList');
+        const playerNameInput = document.getElementById('playerNameInput');
 
-    const INGREDIENT_TYPES = ['patty','beef','lettuce','tomato','onion'];
-    const PATTY_PRIMARY = 'Food/Good Patty.png';
-    const BEEF_PRIMARY = 'Food/Good Patty.png';
-    const BEEF_FALLBACK = 'beef.png';
-    const LETTUCE_PRIMARY = 'Food/Good lettuce.png';
-    const LETTUCE_FALLBACK = 'Food/Lettuce.png';
-    const TOMATO_PRIMARY = 'Food/Tomatoo.png';
-    const TOMATO_FALLBACK = 'linear-gradient(180deg,#ff675d 0%,#e5383b 60%,#b41323 100%)';
-    const ONION_IMAGE = 'Food/Onionn.png';
-    const BUN_TOP_PRIMARY = 'Food/Top Bunn.png';
-    const BUN_BOTTOM_PRIMARY = 'Food/Bottom bunn.png';
-    const BUN_BOTTOM_FALLBACK = 'linear-gradient(180deg,#f8c889 0%,#eaa24f 60%,#d9782b 100%)';
+        const INGREDIENT_TYPES = ['patty','beef','lettuce','tomato','onion'];
+        const PATTY_PRIMARY = 'Food/Good Patty.png';
+        const BEEF_PRIMARY = 'Food/Good Patty.png';
+        const BEEF_FALLBACK = 'beef.png';
+        const LETTUCE_PRIMARY = 'Food/Good lettuce.png';
+        const LETTUCE_FALLBACK = 'Food/Lettuce.png';
+        const TOMATO_PRIMARY = 'Food/Tomatoo.png';
+        const TOMATO_FALLBACK = 'linear-gradient(180deg,#ff675d 0%,#e5383b 60%,#b41323 100%)';
+        const ONION_IMAGE = 'Food/Onionn.png';
+        const BUN_TOP_PRIMARY = 'Food/Top Bunn.png';
+        const BUN_BOTTOM_PRIMARY = 'Food/Bottom bunn.png';
+        const BUN_BOTTOM_FALLBACK = 'linear-gradient(180deg,#f8c889 0%,#eaa24f 60%,#d9782b 100%)';
 
-    function buildBackgroundImage(...sources){
-        return sources
-            .filter(Boolean)
-            .map(src => src.startsWith('url(') || src.includes('gradient(')
-                ? src
-                : `url("${src.replace(/"/g, '\"')}")`)
-            .join(', ');
-    }
+        function buildBackgroundImage(...sources){
+            return sources
+                .filter(Boolean)
+                .map(src => src.startsWith('url(') || src.includes('gradient(')
+                    ? src
+                    : `url("${src.replace(/"/g, '\"')}")`)
+                .join(', ');
+        }
 
         let layers = [];
         let movingLayer = null;
@@ -158,8 +179,19 @@
         let running = false;
         let speed = MOVE_BASE_SPEED;
         let score = 0;
-        let bestScore = Number(localStorage.getItem('burgerStackBest') || 0);
-        bestEl.textContent = bestScore;
+        let maxStackHeight = PLATE_HEIGHT + LAYER_HEIGHT;
+
+        let highScores = loadHighScores();
+        let currentPlayer = localStorage.getItem(LAST_PLAYER_KEY) || '';
+        let bestScore = getHighestScore();
+
+        if(playerNameInput){
+            playerNameInput.value = currentPlayer;
+        }
+
+        renderHighScores();
+        updateBestScoreDisplay();
+        updateScoreboard();
 
         function createLayerElement(width, bottom, left, type){
             const el = document.createElement('div');
@@ -186,6 +218,8 @@
         function resetStack(){
             stackEl.innerHTML = '';
             layers = [];
+            maxStackHeight = PLATE_HEIGHT + LAYER_HEIGHT;
+            stageEl.style.height = `${STAGE_HEIGHT}px`;
         }
 
         function spawnBase(){
@@ -196,6 +230,7 @@
             baseEl.style.backgroundImage = buildBackgroundImage(BUN_BOTTOM_PRIMARY, BUN_BOTTOM_FALLBACK);
             stackEl.appendChild(baseEl);
             layers.push({el: baseEl, width, left, bottom, type: 'bun-bottom'});
+            updateStageHeight(bottom + LAYER_HEIGHT);
         }
 
         function pickIngredient(){
@@ -249,32 +284,117 @@
 
             score = layers.length - 1;
             speed = Math.min(7.5, MOVE_BASE_SPEED + score * 0.18);
+            updateStageHeight(current.bottom + LAYER_HEIGHT);
             updateScoreboard();
-
-            if(current.bottom + LAYER_HEIGHT >= CEILING){
-                current.el.classList.add('crowned');
-                endGame('Ceiling reached!', `Tower complete! You squeezed in <strong>${score}</strong> layers before hitting the cutoff.`);
-                return;
-            }
 
             setTimeout(spawnMovingLayer, 260);
         }
 
-        function updateScoreboard(){
-            scoreEl.textContent = score;
-            const topLayer = layers[layers.length - 1];
-            const heightRatio = Math.min(1, (topLayer.bottom + LAYER_HEIGHT) / CEILING);
-            const percent = Math.round(heightRatio * 100);
-            heightMeter.setAttribute('aria-valuenow', String(percent));
-            heightFill.style.height = `${percent}%`;
+        function updateStageHeight(topHeight){
+            maxStackHeight = Math.max(maxStackHeight, topHeight);
+            const desiredHeight = Math.max(STAGE_HEIGHT, maxStackHeight + STAGE_PADDING);
+            stageEl.style.height = `${desiredHeight}px`;
         }
 
-        function updateBestScore(){
-            if(score > bestScore){
-                bestScore = score;
-                localStorage.setItem('burgerStackBest', String(bestScore));
-                bestEl.textContent = bestScore;
+        function updateScoreboard(){
+            scoreEl.textContent = score;
+            const reference = Math.max(bestScore, score, 1);
+            const percent = Math.min(100, Math.round((score / reference) * 100));
+            heightMeter.setAttribute('aria-valuemax', String(reference));
+            heightMeter.setAttribute('aria-valuenow', String(score));
+            heightFill.style.height = `${percent}%`;
+            updateBestScoreDisplay();
+        }
+
+        function updateBestScoreDisplay(){
+            bestEl.textContent = Math.max(bestScore, score);
+        }
+
+        function getHighestScore(){
+            return highScores.reduce((max, entry) => Math.max(max, Number(entry.score) || 0), 0);
+        }
+
+        function loadHighScores(){
+            try {
+                const raw = localStorage.getItem(HIGH_SCORES_KEY);
+                if(!raw) return [];
+                const parsed = JSON.parse(raw);
+                if(Array.isArray(parsed)){
+                    return parsed
+                        .filter(entry => entry && typeof entry.name === 'string' && typeof entry.score === 'number')
+                        .map(entry => ({
+                            name: entry.name,
+                            score: entry.score,
+                            updatedAt: entry.updatedAt || Date.now()
+                        }))
+                        .sort((a,b) => b.score - a.score || a.updatedAt - b.updatedAt);
+                }
+            } catch(error){
+                console.warn('Unable to read high scores', error);
             }
+            return [];
+        }
+
+        function saveHighScores(){
+            try {
+                localStorage.setItem(HIGH_SCORES_KEY, JSON.stringify(highScores));
+            } catch(error){
+                console.warn('Unable to save high scores', error);
+            }
+        }
+
+        function renderHighScores(){
+            if(!highScoreList) return;
+            highScoreList.innerHTML = '';
+            if(!highScores.length){
+                const emptyItem = document.createElement('li');
+                emptyItem.className = 'empty';
+                emptyItem.textContent = 'No scores yet. Be the first to set a record!';
+                highScoreList.appendChild(emptyItem);
+                return;
+            }
+
+            const entries = highScores.slice(0, MAX_HIGH_SCORES_DISPLAY);
+            entries.forEach((entry, index) => {
+                const li = document.createElement('li');
+                const rank = document.createElement('span');
+                rank.className = 'rank';
+                rank.textContent = `${index + 1}.`;
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'name';
+                nameSpan.textContent = entry.name;
+                const value = document.createElement('span');
+                value.className = 'value';
+                value.textContent = String(entry.score);
+                li.append(rank, nameSpan, value);
+                highScoreList.appendChild(li);
+            });
+        }
+
+        function recordPlayerScore(name, finalScore){
+            const trimmed = (name || '').trim();
+            if(!trimmed || finalScore <= 0) return;
+
+            const existing = highScores.find(entry => entry.name === trimmed);
+            const timestamp = Date.now();
+            if(existing){
+                if(finalScore > existing.score){
+                    existing.score = finalScore;
+                    existing.updatedAt = timestamp;
+                }
+            } else {
+                highScores.push({name: trimmed, score: finalScore, updatedAt: timestamp});
+            }
+
+            highScores = highScores
+                .filter(entry => typeof entry.score === 'number' && entry.score >= 0)
+                .sort((a,b) => b.score - a.score || a.updatedAt - b.updatedAt);
+
+            saveHighScores();
+            bestScore = getHighestScore();
+            updateBestScoreDisplay();
+            renderHighScores();
+            updateScoreboard();
         }
 
         function update(time){
@@ -317,16 +437,42 @@
         function endGame(title, message){
             running = false;
             cancelAnimationFrame(animationId);
-            updateBestScore();
+            recordPlayerScore(currentPlayer, score);
             overlayTitle.textContent = title;
             overlayMessage.innerHTML = message;
             overlayButton.textContent = 'Play again';
             overlay.classList.remove('hidden');
+            if(playerNameInput){
+                playerNameInput.value = currentPlayer;
+                playerNameInput.removeAttribute('aria-invalid');
+                playerNameInput.focus();
+            }
         }
 
         overlayButton.addEventListener('click', () => {
+            const name = playerNameInput ? playerNameInput.value.trim() : '';
+            if(!name){
+                if(playerNameInput){
+                    playerNameInput.setAttribute('aria-invalid', 'true');
+                    playerNameInput.focus();
+                }
+                return;
+            }
+            currentPlayer = name;
+            localStorage.setItem(LAST_PLAYER_KEY, currentPlayer);
+            if(playerNameInput){
+                playerNameInput.removeAttribute('aria-invalid');
+            }
             startGame();
         });
+
+        if(playerNameInput){
+            playerNameInput.addEventListener('input', () => {
+                if(playerNameInput.value.trim()){
+                    playerNameInput.removeAttribute('aria-invalid');
+                }
+            });
+        }
 
         stageEl.addEventListener('pointerdown', () => {
             if(!running) return;
@@ -337,19 +483,18 @@
             if(event.code === 'Space' || event.code === 'Enter'){
                 event.preventDefault();
                 if(!running){
-                    startGame();
+                    overlayButton.click();
                 } else {
                     dropCurrentLayer();
                 }
             } else if(event.key.toLowerCase() === 'r' && !running){
-                startGame();
+                overlayButton.click();
             }
         });
 
         overlayTitle.textContent = 'Burger Stack Challenge';
-        overlayMessage.innerHTML = 'Drop each ingredient so it lands on the one below it.<br>Align carefully—when you miss, the burger topples.<br><br><strong>Press Space / Tap to drop.</strong>';
+        overlayMessage.innerHTML = 'Drop each ingredient so it lands on the one below it.<br>Keep building forever—your run only ends when the burger falls.<br>Scroll to follow the top of your burger.<br><br><strong>Press Space / Tap to drop.</strong>';
         overlayButton.textContent = 'Start stacking';
-        updateScoreboard();
     })();
     </script>
 </body>
