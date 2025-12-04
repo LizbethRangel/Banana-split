@@ -153,6 +153,12 @@
                 <button class="mode-btn" id="btn-2p" type="button">2 Players</button>
             </div>
 
+            <div class="mode-select">
+                <button class="mode-btn" id="btn-easy" type="button">Easy</button>
+                <button class="mode-btn active" id="btn-normal" type="button">Normal</button>
+                <button class="mode-btn" id="btn-hard" type="button">Hard</button>
+            </div>
+
             <label for="playerNameInput" id="nameInputLabel">
                 Player Name
                 <input type="text" id="playerNameInput" name="playerName" placeholder="Enter your name" autocomplete="name" maxlength="24">
@@ -173,6 +179,12 @@
         const HIGH_SCORES_KEY = 'burgerStackHighScores';
         const LAST_PLAYER_KEY = 'burgerStackLastPlayer';
         const MAX_HIGH_SCORES_DISPLAY = 10;
+
+        const DIFFICULTY_SETTINGS = {
+            easy: { base: 2.0, inc: 0.1, max: 5.0 },
+            normal: { base: 3.2, inc: 0.18, max: 7.5 },
+            hard: { base: 5.0, inc: 0.25, max: 12.0 }
+        };
 
         const INGREDIENT_TYPES = ['patty','beef','lettuce','tomato','onion'];
         const PATTY_PRIMARY = 'Food/Good Patty.png';
@@ -208,13 +220,18 @@
                 this.movingLayer = null;
                 this.running = false;
                 this.score = 0;
-                this.speed = MOVE_BASE_SPEED;
+                this.difficulty = config.difficulty || 'normal';
+                this.speed = DIFFICULTY_SETTINGS[this.difficulty].base;
                 this.maxStackHeight = PLATE_HEIGHT + LAYER_HEIGHT;
                 this.animationId = null;
                 this.lastTime = 0;
                 this.direction = 1;
                 
                 this.update = this.update.bind(this);
+            }
+
+            setDifficulty(diff) {
+                this.difficulty = diff;
             }
 
             createLayerElement(width, bottom, left, type){
@@ -245,7 +262,7 @@
                 this.maxStackHeight = PLATE_HEIGHT + LAYER_HEIGHT;
                 this.stageEl.style.height = `${STAGE_HEIGHT}px`;
                 this.score = 0;
-                this.speed = MOVE_BASE_SPEED;
+                this.speed = DIFFICULTY_SETTINGS[this.difficulty].base;
                 if(this.scoreEl) this.scoreEl.textContent = '0';
             }
 
@@ -310,7 +327,10 @@
                 this.layers.push(current);
 
                 this.score = this.layers.length - 1;
-                this.speed = Math.min(7.5, MOVE_BASE_SPEED + this.score * 0.18);
+                
+                const settings = DIFFICULTY_SETTINGS[this.difficulty];
+                this.speed = Math.min(settings.max, settings.base + this.score * settings.inc);
+                
                 this.updateStageHeight(current.bottom + LAYER_HEIGHT);
                 
                 if(this.scoreEl) this.scoreEl.textContent = this.score;
@@ -414,6 +434,24 @@
         // Mode Switching
         btn1P.addEventListener('click', () => setMode(false));
         btn2P.addEventListener('click', () => setMode(true));
+
+        // Difficulty Switching
+        const btnEasy = document.getElementById('btn-easy');
+        const btnNormal = document.getElementById('btn-normal');
+        const btnHard = document.getElementById('btn-hard');
+
+        btnEasy.addEventListener('click', () => setDifficulty('easy'));
+        btnNormal.addEventListener('click', () => setDifficulty('normal'));
+        btnHard.addEventListener('click', () => setDifficulty('hard'));
+
+        function setDifficulty(diff){
+            btnEasy.classList.toggle('active', diff === 'easy');
+            btnNormal.classList.toggle('active', diff === 'normal');
+            btnHard.classList.toggle('active', diff === 'hard');
+            
+            game1.setDifficulty(diff);
+            game2.setDifficulty(diff);
+        }
 
         function setMode(twoPlayer){
             isTwoPlayer = twoPlayer;
@@ -595,7 +633,7 @@
 
             highScores = highScores
                 .filter(entry => typeof entry.score === 'number' && entry.score >= 0)
-                .sort((a,b) => b.score - a.score || a.updatedAt - b.updatedAt);
+                .sort((a,b) => b.score - a.updatedAt - (a.score - b.score));
 
             saveHighScores();
             bestScore = getHighestScore();
