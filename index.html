@@ -198,6 +198,7 @@
         const BUN_TOP_PRIMARY = 'Food/Top Bunn.png';
         const BUN_BOTTOM_PRIMARY = 'Food/Bottom bunn.png';
         const BUN_BOTTOM_FALLBACK = 'linear-gradient(180deg,#f8c889 0%,#eaa24f 60%,#d9782b 100%)';
+        const BG_MUSIC_SRC = 'Food/Sound.wav';
 
         function buildBackgroundImage(...sources){
             return sources
@@ -409,6 +410,8 @@
         let highScores = loadHighScores();
         let bestScore = getHighestScore();
         let currentPlayer = localStorage.getItem(LAST_PLAYER_KEY) || '';
+        let bgMusic = new Audio(BG_MUSIC_SRC);
+        bgMusic.loop = true;
 
         if(playerNameInput) playerNameInput.value = currentPlayer;
         renderHighScores();
@@ -504,6 +507,8 @@
         }
 
         function showGameOver(title, message){
+            bgMusic.pause();
+            bgMusic.currentTime = 0;
             overlayTitle.textContent = title;
             overlayMessage.innerHTML = message;
             overlayButton.textContent = 'Play again';
@@ -514,6 +519,7 @@
             overlay.classList.add('hidden');
             game1.start();
             if(isTwoPlayer) game2.start();
+            bgMusic.play().catch(e => console.warn('Audio play failed', e));
         }
 
         // Input Handling
